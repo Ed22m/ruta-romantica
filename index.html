@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ruta Romántica para Sona</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #ffe4ec, #fff0f5);
+      overflow: hidden;
+      position: relative;
+    }
+
+    #map {
+      width: 100vw;
+      height: 100vh;
+      opacity: 0;
+      transition: opacity 2s ease;
+      z-index: 0;
+    }
+
+    .gift-button {
+      position: absolute;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s;
+      z-index: 3;
+      animation: pulse 2.5s infinite;
+      cursor: pointer;
+    }
+
+    .gift-button:hover {
+      background: #ff85c1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.1); }
+    }
+
+    #mobileIntro {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: linear-gradient(to bottom, #ffdae8, #ffcde3);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 15;
+    }
+
+    .mobile-box {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-size: 1.2em;
+      max-width: 90%;
+      color: #880e4f;
+    }
+
+    #mobileIntro button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1em;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    #mobileIntro button:hover {
+      background: #ff85c1;
+    }
+  </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuPhM29_V__AmnO0XC5DlWSzMgEk3nfro"></script>
+</head>
+<body>
+
+  <div id="mobileIntro">
+    <div class="mobile-box">
+      <p>Hola mi amor Sona 💕<br>Esta ruta especial está optimizada para ti desde el móvil 🌸</p>
+      <button id="mobileStartBtn">Comenzar 🌷</button>
+    </div>
+  </div>
+
+  <audio id="music" loop>
+    <source src="Ed Sheeran - Perfect.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div id="map"></div>
+  <a href="https://turegaloromantico.com" class="gift-button" target="_blank">Abrir el regalo 🎁</a>
+
+  <script>
+    const locations = [
+      { lat: 40.195168, lng: 44.515099, msg: "Aquí empezó todo... 🌸" },
+      { lat: 40.191508, lng: 44.505955, msg: "Un momento inolvidable... 💕" },
+      { lat: 40.176017, lng: 44.507433, msg: "Te tomé de la mano... 🤍" },
+      { lat: 40.193313, lng: 44.481324, msg: "Mi corazón late por ti... ❤️" }
+    ];
+
+    let map;
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 13,
+        center: locations[0],
+        styles: [
+          { elementType: "geometry", stylers: [{ color: "#fce4ec" }] },
+          { elementType: "labels.text.fill", stylers: [{ color: "#880e4f" }] },
+          { elementType: "labels.text.stroke", stylers: [{ color: "#fce4ec" }] },
+          { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#f8bbd0" }] }
+        ]
+      });
+
+      locations.forEach((loc) => {
+        new google.maps.Marker({
+          position: loc,
+          map,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 8,
+            fillColor: "#ff69b4",
+            fillOpacity: 1,
+            strokeWeight: 2,
+            strokeColor: "#fff"
+          },
+          animation: google.maps.Animation.DROP
+        });
+      });
+    }
+
+    function isMobile() {
+      return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (isMobile()) {
+        document.getElementById('mobileIntro').style.display = 'flex';
+      } else {
+        document.getElementById('map').style.opacity = '1';
+        document.getElementById('music').play();
+        initMap();
+      }
+    });
+
+    document.getElementById('mobileStartBtn').onclick = () => {
+      document.getElementById('mobileIntro').style.display = 'none';
+      document.getElementById('map').style.opacity = '1';
+      document.getElementById('music').play();
+      initMap();
+    };
+  </script>
+</body>
+</html>
